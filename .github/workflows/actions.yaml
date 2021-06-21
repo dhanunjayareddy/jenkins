@@ -8,6 +8,11 @@ jobs:
     steps:
       - name: Clone git
         uses: actions/checkout@master
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
       - name: build
         run: |
           ls -ltr
@@ -22,7 +27,7 @@ jobs:
           exclusions: '*.git*  *.github*'
       - name: Upload project artifact to s3 bucket
         run: |
-          aws s3 cp project.zip s3://$S3_BUCKET
+          aws s3 cp project.zip s3://dry-run009
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           S3_BUCKET: ${{ secrets.AWS_S3_BUCKET_DEV }}
