@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   run-github-actions:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Clone git
         uses: actions/checkout@master
@@ -25,19 +25,20 @@ jobs:
           filename: project.zip
           path: ./
           exclusions: '*.git*  *.github*'
-      - uses: shallwefootball/s3-upload-action@master
-        with:
-          S3_BUCKET: ${{ secrets.AWS_S3_BUCKET_DEV }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
-          source_dir: 'project.zip'
-          
-      # - name: Upload project artifact to s3 bucket
-        
-      #   run: |
-      #     aws s3 cp project.zip s3://dry-run009
-      #   env:
-      #     AWS_REGION: ${{ secrets.AWS_REGION }}
+      # - uses: shallwefootball/s3-upload-action@master
+      #   with:
       #     S3_BUCKET: ${{ secrets.AWS_S3_BUCKET_DEV }}
       #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
       #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
+      #     source_dir: 'project.zip'
+          
+      - name: Upload project artifact to s3 bucket
+        
+        run: |
+          
+          aws s3 cp project.zip s3://dry-run009
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          S3_BUCKET: ${{ secrets.AWS_S3_BUCKET_DEV }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
