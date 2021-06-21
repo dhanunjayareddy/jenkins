@@ -34,13 +34,20 @@ jobs:
       #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
       #     source_dir: 'project.zip'
           
-      - name: Upload project artifact to s3 bucket
+      # - name: Upload project artifact to s3 bucket
         
-        run: |
+      #   run: |
           
-          aws s3 cp project.zip s3://dry-run009
+      #     aws s3 cp project.zip s3://dry-run009
+      #   env:
+      #     AWS_REGION: ${{ secrets.AWS_REGION }}
+      #     S3_BUCKET: ${{ secrets.AWS_S3_BUCKET_DEV }}
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
+
+      - name: Deploy to S3
         env:
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          S3_BUCKET: ${{ secrets.AWS_S3_BUCKET_DEV }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_DEV  }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
+        run: |
+          aws s3 cp project.zip  s3://dry-run009
