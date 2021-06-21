@@ -20,11 +20,13 @@ jobs:
           chmod +x run.sh
           bash run.sh
       - name: Zip project artifact
-        uses: thedoctor0/zip-release@master
-        with:
-          filename: project.zip
-          path: ./
-          exclusions: '*.git*  *.github*'
+        run: |
+          zip -r project.zip * -x '*.git*'
+        # uses: thedoctor0/zip-release@master
+        # with:
+        #   filename: project.zip
+        #   path: ./
+        #   exclusions: '*.git*  *.github*'
       # - uses: shallwefootball/s3-upload-action@master
       #   with:
       #     S3_BUCKET: ${{ secrets.AWS_S3_BUCKET_DEV }}
