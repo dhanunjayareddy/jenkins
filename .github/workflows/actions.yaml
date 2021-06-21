@@ -25,7 +25,9 @@ jobs:
           filename: project.zip
           path: ./
           exclusions: '*.git*  *.github*'
+      - uses: shallwefootball/s3-upload-action@master
       - name: Upload project artifact to s3 bucket
+        
         run: |
           aws s3 cp project.zip s3://dry-run009
         env:
