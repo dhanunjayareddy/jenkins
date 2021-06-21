@@ -1,0 +1,30 @@
+name: maven-test
+
+on: [push]
+
+jobs:
+  run-github-actions:
+    runs-on: self-hosted
+    steps:
+      - name: Clone git
+        uses: actions/checkout@master
+      - name: build
+        run: |
+          ls -ltr
+          pwd
+          chmod +x run.sh
+          bash run.sh
+      - name: Zip project artifact
+        uses: thedoctor0/zip-release@master
+        with:
+          filename: project.zip
+          path: ./
+          exclusions: '*.git*  *.github*'
+      - name: Upload project artifact to s3 bucket
+        run: |
+          aws s3 cp project.zip s3://$S3_BUCKET
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          S3_BUCKET: ${{ secrets.AWS_S3_BUCKET_DEV }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
